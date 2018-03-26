@@ -1,0 +1,8 @@
+#!/bin/sh
+
+# Copy last commit hash to clipboard on commit
+
+echo "*************************************************************************************************************************************************"
+echo "***************** OPEN PR : https://github.com/GuillaumeSarfati/faste-catalogue/compare/"`git rev-parse --abbrev-ref HEAD`?expand=1
+echo "*************************************************************************************************************************************************"
+# Add other post-commit hooks 
