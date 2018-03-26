@@ -1,6 +1,6 @@
 #!/bin/sh
 
-git config --global init.templatedir '~/.git-templates' &&
-mkdir -p ~/.git-templates/hooks &&
-cp ./pre-push ~/.git-templates/hooks &&
-chmod a+x ~/.git-templates/hooks/pre-push
+git config --global core.hooksPath ~/.githooks &&
+mkdir ~/.githooks &&
+cp ./pre-push ~/.githooks &&
+chmod a+x ~/.githooks/pre-push
