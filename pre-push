@@ -1,8 +1,14 @@
 #!/bin/sh
 
 # Copy last commit hash to clipboard on commit
+if [ git remote get-url origin | grep @ ]
+then
+	url='https://github.com/'`git remote get-url origin  | sed -e 's/.*:\(.*\)/\1/'`'/compare/'`git rev-parse --abbrev-ref HEAD`'?expand=1'
+else
+	url=`git remote get-url origin`'/compare/'`git rev-parse --abbrev-ref HEAD`'?expand=1'
+fi
 
 echo "*************************************************************************************************************************************************"
-echo "***************** OPEN PR : https://github.com/`git remote get-url origin | grep @ | sed -e 's/.*:\(.*\)/\1/'`/compare/"`git rev-parse --abbrev-ref HEAD`?expand=1
+echo "***************** OPEN PR : $url *******************" 
 echo "*************************************************************************************************************************************************"
 # Add other post-commit hooks 
