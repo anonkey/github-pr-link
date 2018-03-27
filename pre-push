@@ -1,15 +1,21 @@
 #!/bin/sh
 
 # Copy last commit hash to clipboard on commit
-if git remote get-url origin | grep git@ > /dev/null
+url=`git remote get-url origin | sed s/.git$//`
+
+# git over ssh
+if  echo $url | grep git@ > /dev/null
 then
 	url='https://github.com/'`git remote get-url origin  | sed -e 's/.*:\(.*\)/\1/'`'/compare/'`git rev-parse --abbrev-ref HEAD`'?expand=1'
-elif git remote get-url origin | grep @ >/dev/null
+# git url with access token
+elif echo $url | grep @ >/dev/null
 then
 	url='https://'`git remote get-url origin  | sed -e 's/.*@\(.*\)/\1/'`'/compare/'`git rev-parse --abbrev-ref HEAD`'?expand=1'
+# git http url
 else
 	url=`git remote get-url origin`'/compare/'`git rev-parse --abbrev-ref HEAD`'?expand=1'
 fi
+
 
 echo "
       __            /^\\
@@ -18,21 +24,21 @@ echo "
   /   /.  \\       / ::: | 
  |    |::. \\     / :::'/  
  |   / \\::. |   / :::'/
- `--`   \\'  `~~~ ':'/`
+ \`--\`   \\'  \`~~~ ':'/\`
          /         (    
         /   0 _ 0   \\   
       \\/     \\_/     \\/  
     -== '.'   |   '.' ==-   
       /\\    '-^-'    /\\    
         \\   _   _   /             
-       .-`-((\\o/))-`-.   
+       .-\`-((\\o/))-\`-.   
   _   /     //^\\\\     \\   _    
 .\"o\".(    , .:::. ,    ).\"o\".  
 |o  o\\\\    \\:::::/    //o  o| 
  \\    \\\\   |:::::|   //    /   
   \\    \\\\__/:::::\\__//    /   
-   \\ .:.\\  `':::'`  /.:. /      
+   \\ .:.\\  \`':::'\`  /.:. /      
     \\':: |_       _| ::'/  
- jgs `---` `\"\"\"\"\"` `---`
+ jgs \`---\` \`\"\"\"\"\"\` \`---\`
 $url"
 # Add other post-commit hooks 
