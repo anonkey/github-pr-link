@@ -1,44 +1,44 @@
 #!/bin/sh
 
 # Copy last commit hash to clipboard on commit
-url=`git remote get-url origin | sed s/.git$//`
+url=`git remote get-url origin | sed -e 's/\/$//' | sed -e 's/\.git$//'`
 
 # git over ssh
 if  echo $url | grep git@ > /dev/null
 then
-	url='https://github.com/'`git remote get-url origin  | sed -e 's/.*:\(.*\)/\1/'`'/compare/'`git rev-parse --abbrev-ref HEAD`'?expand=1'
+	url='https://github.com/'`echo $url  | sed -e 's/.*:\(.*\)/\1/'`'/compare/'`git rev-parse --abbrev-ref HEAD`'?expand=1'
 # git url with access token
 elif echo $url | grep @ >/dev/null
 then
-	url='https://'`git remote get-url origin  | sed -e 's/.*@\(.*\)/\1/'`'/compare/'`git rev-parse --abbrev-ref HEAD`'?expand=1'
+	url='https://'`echo $url  | sed -e 's/.*@\(.*\)/\1/'`'/compare/'`git rev-parse --abbrev-ref HEAD`'?expand=1'
 # git http url
 else
-	url=`git remote get-url origin`'/compare/'`git rev-parse --abbrev-ref HEAD`'?expand=1'
+	url=`echo $url`'/compare/'`git rev-parse --abbrev-ref HEAD`'?expand=1'
 fi
 
 
 echo "
       __            /^\\
-    .'  \\          / :.\\   
-   /     \\         | :: \\ 
-  /   /.  \\       / ::: | 
- |    |::. \\     / :::'/  
+    .'  \\          / :.\\
+   /     \\         | :: \\
+  /   /.  \\       / ::: |
+ |    |::. \\     / :::'/
  |   / \\::. |   / :::'/
  \`--\`   \\'  \`~~~ ':'/\`
-         /         (    
-        /   0 _ 0   \\   
-      \\/     \\_/     \\/  
-    -== '.'   |   '.' ==-   
-      /\\    '-^-'    /\\    
-        \\   _   _   /             
-       .-\`-((\\o/))-\`-.   
-  _   /     //^\\\\     \\   _    
-.\"o\".(    , .:::. ,    ).\"o\".  
-|o  o\\\\    \\:::::/    //o  o| 
- \\    \\\\   |:::::|   //    /   
-  \\    \\\\__/:::::\\__//    /   
-   \\ .:.\\  \`':::'\`  /.:. /      
-    \\':: |_       _| ::'/  
+         /         (
+        /   0 _ 0   \\
+      \\/     \\_/     \\/
+    -== '.'   |   '.' ==-
+      /\\    '-^-'    /\\
+        \\   _   _   /
+       .-\`-((\\o/))-\`-.
+  _   /     //^\\\\     \\   _
+.\"o\".(    , .:::. ,    ).\"o\".
+|o  o\\\\    \\:::::/    //o  o|
+ \\    \\\\   |:::::|   //    /
+  \\    \\\\__/:::::\\__//    /
+   \\ .:.\\  \`':::'\`  /.:. /
+    \\':: |_       _| ::'/
  jgs \`---\` \`\"\"\"\"\"\` \`---\`
 $url"
-# Add other post-commit hooks 
+# Add other post-commit hooks
